@@ -37,10 +37,10 @@ apt-get install -y --no-install-recommends cron logrotate
 apt-get -y --no-install-recommends dist-upgrade
 
 # clean up after
-apt-get clean all
+#apt-get clean all
 
-mkdir /etc/my_runonce
-mkdir /etc/my_runalways
+#mkdir /etc/my_runonce
+#mkdir /etc/my_runalways
 mkdir /etc/container_environment
 mkdir /etc/workaround-docker-2267
 

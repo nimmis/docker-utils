@@ -4,11 +4,11 @@ shutdown() {
   echo Shutting Down Container
 
   # running shutdown commands
-  /etc/runit/3
+#  /etc/runit/3
  
   # first shutdown any service started by runit
   for _srv in $(ls -1 /etc/service); do
-    echo "sv force-stop $_srv"
+    sv force-stop $_srv
   done
 
   # shutdown runsvdir command  
@@ -20,10 +20,10 @@ shutdown() {
 
   # kill any other processes still running in the container
 
-  for _pid  in $(ps -eo pid | grep -v PID  | tr -d ' ' | grep -v '^1$'); do
+  for _pid  in $(ps -eo pid | grep -v PID  | tr -d ' ' | grep -v '^1$' | head -n -6); do
     timeout -t 5 /bin/sh -c "kill $_pid && wait $_pid || kill -9 $_pid"
   done
-
+  exit
 }
 
 # run pre-deamon tasks
@@ -34,6 +34,14 @@ shutdown() {
 
 RUNSVDIR=$!
 echo "Started runsvdir, PID is $RUNSVDIR"
+echo "wait for processes to start...."
+
+sleep 5
+for _srv in $(ls -1 /etc/service); do
+    sv status $_srv
+  done
+
+
 # catch shutdown signals
 trap shutdown SIGTERM SIGHUP
 wait $RUNSVDIR

@@ -270,7 +270,7 @@ def run_startup_files():
 def start_supervisor():
 	info("Booting supervisor daemon...")
 	pid = os.spawnl(os.P_NOWAIT, "/usr/bin/supervisord", "/usr/bin/supervisord",
-		"-c", "/etc/supervisor/supervisord.conf")
+		"-c", "/etc/supervisord.conf")
 	info("Supervisor started as PID %d" % pid)
 	time.sleep(5)
 	output = subprocess.Popen(["/usr/bin/supervisorctl", "status"], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()

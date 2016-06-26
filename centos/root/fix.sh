@@ -43,6 +43,9 @@ case "$RELEASEVER" in
 	# prepare for using supervisor
 	# don't use old with repo, install new with pip
 	yum install -y python-pip
+	# workaround for version bug on 1.0.3 with supervisor
+	pip install 'meld3 == 1.0.1'
+	# install supervisor
 	pip install supervisor
 
 	;;

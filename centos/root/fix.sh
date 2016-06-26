@@ -43,7 +43,7 @@ case "$RELEASEVER" in
         yum install -y syslog-ng syslog-ng-libdbi
 
         # can't access /proc/kmsg. https://groups.google.com/forum/#!topic/docker-user/446yoB0Vx6w
-        sed -i '/program_override/d' /etc/syslog-ng/syslog-ng.conf
+        sed -i '/\proc\/kmsg/d' /etc/syslog-ng/syslog-ng.conf
 
         # fix different location on syslog-ng for supervisord conf
         ln -s /sbin/syslog-ng /usr/sbin/

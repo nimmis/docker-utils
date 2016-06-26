@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# install script for ubuntu
+#
+# (c) nimmis <kjell.havneskold@gmail.com>, 2016
+#
+
 # fix docker issue #1024
 dpkg-divert --local --rename --add /sbin/initctl
 ln -sf /bin/true /sbin/initctl

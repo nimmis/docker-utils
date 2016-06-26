@@ -1,4 +1,10 @@
 #!/usr/bin/python
+#
+# Install script to handle normal 
+# /etc/init.d/ startscript in
+# supervisord
+#
+# (c) 2015-16 nimmis <kjell.havneskold@gmail.com>
 
 import os, signal, sys, subprocess
 

@@ -24,9 +24,15 @@ case "$RELEASEVER" in
 	# install crontab
 	yum install -y vixie-cron
 
+	# fix python 2.6
+	yum install -y python26
+	ln -sf /usr/bin/python2.6 /usr/bin/python
+
+	# install pip the hard way
+	curl https://bootstrap.pypa.io/get-pip.py | python -
+
 	# prepare for using supervisor
 	# don't use old with repo, install new with pip
-        yum install -y python-pip
         pip install supervisor
 
 	;;

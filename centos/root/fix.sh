@@ -10,7 +10,7 @@
 mkdir -p /usr/share/info/
 
 # install some often used commands
-yum install -y wget curl zip unzip patch less git vim nano psmisc
+yum install -y wget curl zip unzip patch less vim nano psmisc
 
 # do versiondependent installations
 
@@ -19,9 +19,7 @@ RELEASEVER=$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))
 case "$RELEASEVER" in
   5)
 	# enable EPEL repositor
-	wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-5.noarch.rpm
-	rpm -Uhv epel-release-latest-5.noarch.rpm
-	rm epel-release-latest-5.noarch.rpm
+	rpm -Uhv http://dl.fedoraproject.org/pub/epel/5/x86_64/epel-release-5-4.noarch.rpm
 
 	# install crontab
 	yum install -y vixie-cron
@@ -44,6 +42,9 @@ case "$RELEASEVER" in
 
 	;;
 esac
+
+#install git after epel for version 5 to work
+yum install -y git
 
 # set US locale UTF-8
 localedef -c -i en_US -f UTF-8 en_US.UTF-8

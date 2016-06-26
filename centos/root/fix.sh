@@ -27,6 +27,8 @@ case "$RELEASEVER" in
 	# fix python 2.6
 	yum install -y python26
 	ln -sf /usr/bin/python2.6 /usr/bin/python
+	# fix yum problem
+	sed -i 's/usr\/bin\/python$/usr\/bin\/python2.4/' /usr/bin/yum 
 
 	# install pip the hard way
 	curl https://bootstrap.pypa.io/get-pip.py | python -

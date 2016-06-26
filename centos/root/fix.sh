@@ -47,7 +47,17 @@ case "$RELEASEVER" in
 	pip install 'meld3 == 1.0.1'
 	# install supervisor
 	pip install supervisor
+	# install missing path
+	mkdir -p /var/log/supervisor/
 
+	# installing syslog-ng
+	yum install -y syslog-ng syslog-ng-libdbi
+
+	# can't access /proc/kmsg. https://groups.google.com/forum/#!topic/docker-user/446yoB0Vx6w
+	sed -i '/program_override/d' /etc/syslog-ng/syslog-ng.conf 
+
+	# fix different location on syslog-ng for supervisord conf
+	ln -s /sbin/syslog-ng /usr/sbin/
 	;;
   7)
 	# enable EPEL repository
@@ -58,6 +68,12 @@ case "$RELEASEVER" in
 
 	# prepare for using supervisor
 	yum install -y supervisor
+
+        # installing syslog-ng
+        yum install -y syslog-ng
+	# can't access /proc/kmsg. https://groups.google.com/forum/#!topic/docker-user/446yoB0Vx6w
+	sed -i -E 's/^(\s*)system\(\);/\1unix-stream("\/dev\/log");/' /etc/syslog-ng/syslog-ng.conf
+
 	;;
 esac
 
@@ -66,12 +82,6 @@ yum install -y git
 
 # set US locale UTF-8
 localedef -c -i en_US -f UTF-8 en_US.UTF-8
-
-
-# installing syslog-ng, with workaround https://bugs.launchpad.net/ubuntu/+source/syslog-ng/+bug/1242173
-yum install -y syslog-ng
-# can't access /proc/kmsg. https://groups.google.com/forum/#!topic/docker-user/446yoB0Vx6w
-sed -i -E 's/^(\s*)system\(\);/\1unix-stream("\/dev\/log");/' /etc/syslog-ng/syslog-ng.conf
 
 
 # setup cron and logrotatae

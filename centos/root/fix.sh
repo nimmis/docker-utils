@@ -32,6 +32,8 @@ case "$RELEASEVER" in
 	# install crontab
 	yum install -y cronie
 
+	# fix missing argpars in python
+	yum install -y python-argparse
 	;;
   7)
 	# enable EPEL repository

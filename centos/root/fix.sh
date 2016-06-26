@@ -24,6 +24,11 @@ case "$RELEASEVER" in
 	# install crontab
 	yum install -y vixie-cron
 
+	# prepare for using supervisor
+	# don't use old with repo, install new with pip
+        yum install -y python-pip
+        pip install supervisor
+
 	;;
   6)
 	# enable EPEL repository
@@ -34,6 +39,12 @@ case "$RELEASEVER" in
 
 	# fix missing argpars in python
 	yum install -y python-argparse
+
+	# prepare for using supervisor
+	# don't use old with repo, install new with pip
+	yum install -y python-pip
+	pip install supervisor
+
 	;;
   7)
 	# enable EPEL repository
@@ -42,6 +53,8 @@ case "$RELEASEVER" in
 	# install crontab
 	yum install -y cronie
 
+	# prepare for using supervisor
+	yum install -y supervisor
 	;;
 esac
 
@@ -57,8 +70,6 @@ yum install -y syslog-ng
 # can't access /proc/kmsg. https://groups.google.com/forum/#!topic/docker-user/446yoB0Vx6w
 sed -i -E 's/^(\s*)system\(\);/\1unix-stream("\/dev\/log");/' /etc/syslog-ng/syslog-ng.conf
 
-# prepare for using supervisor
-yum install -y supervisor
 
 # setup cron and logrotatae
 yum install -y logrotate

@@ -36,6 +36,17 @@ case "$RELEASEVER" in
 	# prepare for using supervisor
 	# don't use old with repo, install new with pip
         pip install supervisor
+        # install missing path
+        mkdir -p /var/log/supervisor/
+
+        # installing syslog-ng
+        yum install -y syslog-ng syslog-ng-libdbi
+
+        # can't access /proc/kmsg. https://groups.google.com/forum/#!topic/docker-user/446yoB0Vx6w
+        sed -i '/program_override/d' /etc/syslog-ng/syslog-ng.conf
+
+        # fix different location on syslog-ng for supervisord conf
+        ln -s /sbin/syslog-ng /usr/sbin/
 
 	;;
   6)

@@ -17,7 +17,7 @@
 BASEDIR=$(dirname "$0") 
 
 #
-# which_os
+# get_os
 #
 # determine which containter this is
 #
@@ -26,7 +26,7 @@ BASEDIR=$(dirname "$0")
 #   ubuntu - if ubuntu os
 #   centos - if centos os
 #
-which_os() {
+get_os() {
   os="unknown"
 
   if [ -f /etc/os-release ]; then
@@ -36,7 +36,7 @@ which_os() {
 }
 
 #
-# which_init
+# get_init
 #
 # determine which init process is used
 #
@@ -44,7 +44,7 @@ which_os() {
 #   runit       - if runit is used
 #   supervidord - if supervisord is used
 #
-which_init() {
+get_init() {
 
   init="unknown"
 
@@ -56,7 +56,7 @@ which_init() {
     init="runit"
   fi
 
-  echo ${init}
+  echo "${init}"
 }
 
 
@@ -66,7 +66,15 @@ which_init() {
 # install files for the init system
 #
 install_init() {
-  cp -Rp $BASEDIR/${1}/* /
+
+  printf "Installing init files for %s on OS %s .. " ${2} ${1}
+
+  if [ -d $BASEDIR/${1}/init_${2}/ ]; then
+    cp -Rp $BASEDIR/${1}/init_${2}/* /
+    echo "OK"
+  else
+    echo "FAIL: source directory not found"
+  fi
 }
 
 #
@@ -76,24 +84,30 @@ install_init() {
 #
 install_base() {
 
+  printf "Installing utilities and root files for %s .. " ${1}
+
   # copy binaries to /usr/local/bin
   cp -p $BASEDIR/${1}/bin/* /usr/local/bin/
 
   # copy start files
   cp -Rp $BASEDIR/${1}/root/* /
 
+  echo "OK"
 }
 
   
 
+os_ver=$(get_os)
+init_type=$(get_init)
 #
 # install os depedent files
 #
 
-install_base $(which_os)
+install_base ${os_ver}
 
 #
 # install init dependet files
 #
 
-install_init ${which_init}
+install_init ${os_ver} ${init_type}
+

@@ -52,7 +52,7 @@ get_init() {
     init="supervisord"
   fi
 
-  if [ -d /etc/runit ]; then
+  if [ -d /etc/service ]; then
     init="runit"
   fi
 

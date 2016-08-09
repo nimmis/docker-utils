@@ -70,7 +70,7 @@ install_init() {
   printf "Installing init files for %s on OS %s .. " ${2} ${1}
 
   if [ -d $BASEDIR/${1}/init_${2}/ ]; then
-    cp -Rp $BASEDIR/${1}/init_${2}/* /
+    cp -RpP $BASEDIR/${1}/init_${2}/* /
     echo "OK"
   else
     echo "FAIL: source directory not found"

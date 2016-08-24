@@ -48,7 +48,7 @@ get_init() {
 
   init="unknown"
 
-  if [ -d /etc/supervisor.d ]; then
+  if [ -d /etc/supervisor*.d ]; then
     init="supervisord"
   fi
 
@@ -95,10 +95,28 @@ install_base() {
   echo "OK"
 }
 
+#
+# pre_install <ok>
+#
+# run pre installation fixes
+#
+
+pre_install() {
+  if [ -f $BASEDIR/${1}/pre_fix.sh ]; then
+    printf "Running pre-install fixes for %s ...." ${1}
+    $BASEDIR/${1}/pre_fix.sh
+  fi
+}
   
 
 os_ver=$(get_os)
 init_type=$(get_init)
+#
+# run pre-install commands
+#
+
+pre_install ${os_ver}
+
 #
 # install os depedent files
 #

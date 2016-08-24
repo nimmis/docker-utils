@@ -110,7 +110,6 @@ pre_install() {
   
 
 os_ver=$(get_os)
-init_type=$(get_init)
 #
 # run pre-install commands
 #
@@ -126,6 +125,6 @@ install_base ${os_ver}
 #
 # install init dependet files
 #
-
+init_type=$(get_init)
 install_init ${os_ver} ${init_type}
 

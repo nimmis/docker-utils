@@ -18,13 +18,15 @@ fi
 #
 # run script once
 echo "Run scripts in /etc/run_once"
-/bin/run-parts /etc/run_once
+#/bin/run-parts /etc/run_once
+find /etc/run_once -type f -perm +111 -exec {} \;
 # remove scripts in folder
 rm -Rf /etc/run_once/*
 
 # run scripts everytime
 echo "Run scripts is /etc/run_always"
-/bin/run-parts /etc/run_always
+#/bin/run-parts /etc/run_always
+find /etc/run_always -type f -perm +111 -exec {} \;
 
 
 
